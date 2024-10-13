@@ -1,4 +1,15 @@
+import { useNavigate } from 'react-router-dom';
+
+import { Button } from '../components/button';
+
 export const Landing = () => {
+  const navigate = useNavigate();
+
+  const handleOnClickLogin = () => {
+    console.debug('클릭 작동');
+    navigate('/login');
+  };
+
   return (
     <div className="mt-69">
       <div className="flex flex-col justify-center items-center gap-4">
@@ -8,11 +19,17 @@ export const Landing = () => {
         </div>
       </div>
       <div className="mt-34 flex flex-col justify-center items-center gap-10">
-        <div className="flex flex-col items-center justify-center gap-[14px]  font-pretendard text-[14px] font-bold leading-[16.71px] text-left">
-          <button className="w-[311px] h-[41px] p-3 rounded-[6px] gap-1 text-white bg-snutt-orange flex items-center justify-center">
+        <div className="flex flex-col items-center justify-center gap-[14px]">
+          <Button
+            onClick={handleOnClickLogin}
+            variant="contained"
+            color="orange"
+          >
             로그인
-          </button>
-          <button className="">회원가입</button>
+          </Button>
+          <Button variant="text" color="white">
+            회원가입
+          </Button>
         </div>
         <div className="flex flex-col items-center justify-center gap-6">
           <div className="flex items-center gap-[10px]">

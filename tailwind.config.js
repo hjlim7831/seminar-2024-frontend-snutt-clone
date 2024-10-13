@@ -6,6 +6,7 @@ export default {
       colors: {
         'snutt-orange': '#F58D3D',
         'grey-assistive': '#C4C4C4',
+        mint: '#48D8D3',
       },
       margin: {
         34: '136px',

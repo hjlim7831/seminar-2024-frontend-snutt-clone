@@ -66,10 +66,9 @@ type SocialLoginButtonProps = {
 const SocialLoginButton = ({
   src,
   alt,
-  className,
+  className = '',
   border,
 }: SocialLoginButtonProps) => {
-  const additionalClassName = className !== undefined ? className : '';
   const borderClass =
     border !== undefined ? 'border border-grey-assistive border-[0.4px]' : '';
 
@@ -77,7 +76,7 @@ const SocialLoginButton = ({
     <img
       src={src}
       alt={alt}
-      className={`w-[44px] h-[44px] rounded-full object-cover cursor-pointer ${borderClass} ${additionalClassName}`}
+      className={`w-[44px] h-[44px] rounded-full object-cover cursor-pointer ${borderClass} ${className}`}
     />
   );
 };

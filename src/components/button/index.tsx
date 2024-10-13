@@ -12,17 +12,20 @@ export const Button = ({
   color = 'orange',
   variant = 'contained',
   children,
+  disabled,
   ...props
 }: Props) => {
   const baseClassName =
     variant === 'contained'
-      ? `w-[311px] h-[41px] p-3 rounded-[6px] gap-1 flex items-center justify-center bg-${colorMap[color].bg}`
+      ? `w-[311px] h-[41px] p-3 rounded-[6px] gap-1 flex items-center justify-center disabled:bg-grey-disabled ${colorMap[color].bg}`
       : '';
 
-  const textClassName = `font-pretendard text-[14px] font-bold text-${colorMap[color].text} leading-[16.71px] text-left`;
+  const textClassName = `font-pretendard text-[14px] font-bold ${colorMap[color].text} leading-[16.71px] text-left`;
+
+  const finalClassName = `${baseClassName} ${textClassName}`;
 
   return (
-    <button className={`${baseClassName} ${textClassName}`} {...props}>
+    <button className={finalClassName} {...props} disabled={disabled}>
       {children}
     </button>
   );
@@ -30,9 +33,9 @@ export const Button = ({
 
 const colorMap = {
   mint: {
-    bg: 'mint',
-    text: 'white',
+    bg: 'bg-mint',
+    text: 'text-white',
   },
-  orange: { bg: 'snutt-orange', text: 'white' },
-  white: { bg: 'white', text: 'black' },
+  orange: { bg: 'bg-snutt-orange', text: 'text-white' },
+  white: { bg: 'bg-white', text: 'text-black' },
 };

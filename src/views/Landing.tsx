@@ -1,6 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from '../components/button';
+import { Divider } from '../components/divider';
 
 export const Landing = () => {
   const navigate = useNavigate();
@@ -33,11 +34,11 @@ export const Landing = () => {
         </div>
         <div className="flex flex-col items-center justify-center gap-6">
           <div className="flex items-center gap-[10px]">
-            <Divider />
+            <Divider className="w-25" />
             <div className="font-pretendard font-[500] text-grey-assistive leading-[16.71px] text-[14px]">
               SNS 계정으로 계속하기
             </div>
-            <Divider />
+            <Divider className="w-25" />
           </div>
           <div className="flex gap-3">
             <SocialLoginButton src="/logo/kakao.png" alt="kakaoLogin" />
@@ -79,8 +80,4 @@ const SocialLoginButton = ({
       className={`w-[44px] h-[44px] rounded-full object-cover cursor-pointer ${borderClass} ${additionalClassName}`}
     />
   );
-};
-
-const Divider = () => {
-  return <div className="w-[100px] bg-grey-assistive h-[0.75px]" />;
 };

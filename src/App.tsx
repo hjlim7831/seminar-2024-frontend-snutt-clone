@@ -1,9 +1,18 @@
 import './reset.css';
+import './index.css';
 
-import { useReducer } from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
+import { Landing } from './views/Landing';
+import { Login } from './views/Login';
 
 export const App = () => {
-  const [count, increment] = useReducer((c: number) => c + 1, 0);
-
-  return <button onClick={increment}>{count}</button>;
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<Landing />} />
+        <Route path="/login" element={<Login />} />
+      </Routes>
+    </Router>
+  );
 };

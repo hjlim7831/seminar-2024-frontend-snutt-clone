@@ -4,7 +4,10 @@ type Url = string;
 type Config = { params: URLSearchParams };
 
 export const createFetchClients = (
-  options: Partial<{ baseURL: string; headers: { [key: string]: string } }>,
+  options: Partial<{
+    baseURL: string;
+    headers: { [key: string]: string };
+  }>,
 ): HttpClient => {
   const baseURL = options.baseURL ?? '';
   const headers = options.headers ?? {};

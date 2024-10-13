@@ -4,13 +4,19 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/button';
 import { Divider } from '../components/divider';
 import { IcArrowBack } from '../components/icons/ic-arrow-back';
+import { useServiceContext } from '../contexts/serviceContext';
+import type { Token } from '../entities/auth';
 
-export const Login = () => {
+type LoginProps = {
+  saveToken: (t: Token) => void;
+};
+
+export const Login = ({ saveToken }: LoginProps) => {
   return (
     <div className="flex flex-col justify-center items-center font-pretendard">
       <ActionBar />
       <Divider className="w-[375px]" />
-      <LoginForm />
+      <LoginForm saveToken={saveToken} />
     </div>
   );
 };
@@ -37,36 +43,61 @@ const ActionBar = () => {
   );
 };
 
-const LoginForm = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+const LoginForm = ({ saveToken }: LoginProps) => {
+  const navigate = useNavigate();
 
-  const disabled = username === '' || password === '';
+  const [loginInput, setLoginInput] = useState({
+    id: '',
+    password: '',
+  });
 
-  const handleSubmit = () => {
-    console.debug('제출 완료');
+  const { authService } = useServiceContext();
+
+  const disabled = loginInput.id === '' || loginInput.password === '';
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    authService
+      .signIn(loginInput)
+      .then((signInResp) => {
+        saveToken(signInResp.token);
+        navigate('/me');
+      })
+      .catch(() => {
+        setLoginInput({ id: '', password: '' });
+        alert('틀렸습니당~!');
+      });
   };
 
-  const handleOnChangeUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setUsername(e.target.value);
-  };
-
-  const handleOnChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
+  const handleInputChange = (
+    field: string,
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setLoginInput((prev) => ({
+      ...prev,
+      [field]: e.target.value,
+    }));
   };
 
   return (
-    <form className="p-4" onSubmit={handleSubmit}>
+    <form
+      className="p-4"
+      onSubmit={(e) => {
+        handleSubmit(e);
+      }}
+    >
       <div className="flex flex-col gap-2">
-        <label htmlFor="username" className="text-dark-grey">
+        <label htmlFor="id" className="text-dark-grey">
           아이디
         </label>
         <input
           className="focus:outline-none"
           type="text"
-          id="username"
-          value={username}
-          onChange={handleOnChangeUsername}
+          id="id"
+          value={loginInput.id}
+          onChange={(e) => {
+            handleInputChange('id', e);
+          }}
           placeholder="아이디를 입력하세요"
           required
         />
@@ -80,8 +111,10 @@ const LoginForm = () => {
           className="focus:outline-none"
           type="password"
           id="password"
-          value={password}
-          onChange={handleOnChangePassword}
+          value={loginInput.password}
+          onChange={(e) => {
+            handleInputChange('password', e);
+          }}
           placeholder="비밀번호를 입력하세요"
           required
         />

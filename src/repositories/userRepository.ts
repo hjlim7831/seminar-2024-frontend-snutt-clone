@@ -1,9 +1,9 @@
 import type { HttpClient } from '../clients/HttpClient';
 import type { User } from '../entities/user';
 
-export interface UserRepository {
+export type UserRepository = {
   getUserInfo(): Promise<User>;
-}
+};
 
 export const getUserRepository = (httpClient: HttpClient) => {
   return {

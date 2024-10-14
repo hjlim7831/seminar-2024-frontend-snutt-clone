@@ -1,12 +1,12 @@
 import type { HttpClient } from '../clients/HttpClient';
 import type { SignInResponse } from '../entities/auth';
 
-export interface AuthRepository {
+export type AuthRepository = {
   signInWithIdPassword(args: {
     id: string;
     password: string;
   }): Promise<SignInResponse>;
-}
+};
 
 export const getAuthRepository = (httpClient: HttpClient): AuthRepository => {
   return {

@@ -1,4 +1,4 @@
-export interface User {
+export type User = {
   id: string;
   isAdmin: boolean;
   regDate: string;
@@ -7,4 +7,4 @@ export interface User {
   localId: string;
   fbName: string;
   nickname: { nickname: string; tag: string };
-}
+};

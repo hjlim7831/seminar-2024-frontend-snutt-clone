@@ -4,6 +4,7 @@ import './index.css';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
+import { Navigation } from './components/navigation';
 import { type ServiceContext, serviceContext } from './contexts/serviceContext';
 import type { Token } from './entities/auth';
 import { createFetchClients } from './infrastructures/createFetchClient';
@@ -19,6 +20,8 @@ export const App = () => {
   const [token, setToken] = useState<Token | null>(null);
   const [serviceContextValue, setServiceContextValue] =
     useState<ServiceContext | null>(null);
+
+  const isLogin = token !== null;
 
   useEffect(() => {
     const httpClient = createFetchClients({
@@ -39,11 +42,14 @@ export const App = () => {
   return (
     <serviceContext.Provider value={serviceContextValue}>
       <Router>
-        <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login saveToken={saveToken} />} />
-          <Route path="/me" element={<MyPage />} />
-        </Routes>
+        <div className="min-h-screen flex justify-center">
+          <Routes>
+            <Route path="/" element={isLogin ? null : <Landing />} />
+            <Route path="/login" element={<Login saveToken={saveToken} />} />
+            <Route path="/mypage" element={<MyPage />} />
+          </Routes>
+          {isLogin ? <Navigation /> : null}
+        </div>
       </Router>
     </serviceContext.Provider>
   );

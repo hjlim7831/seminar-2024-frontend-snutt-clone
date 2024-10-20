@@ -7,6 +7,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { Navigation } from './components/navigation';
 import { type ServiceContext, serviceContext } from './contexts/serviceContext';
 import type { Token } from './entities/auth';
+import useLocalStorage from './hooks/useLocalStorage';
 import { createFetchClients } from './infrastructures/createFetchClient';
 import { getAuthRepository } from './repositories/authRepository';
 import { getUserRepository } from './repositories/userRepository';
@@ -16,8 +17,10 @@ import { Landing } from './views/Landing';
 import { Login } from './views/Login';
 import { MyPage } from './views/MyPage';
 
+const TOKEN_KEY = 'TOKEN_KEY';
+
 export const App = () => {
-  const [token, setToken] = useState<Token | null>(null);
+  const [token, setToken] = useLocalStorage<Token | null>(TOKEN_KEY, null);
   const [serviceContextValue, setServiceContextValue] =
     useState<ServiceContext | null>(null);
 

@@ -61,7 +61,7 @@ const LoginForm = ({ saveToken }: LoginProps) => {
       .signIn(loginInput)
       .then((signInResp) => {
         saveToken(signInResp.token);
-        navigate('/me');
+        navigate('/mypage');
       })
       .catch(() => {
         setLoginInput({ id: '', password: '' });

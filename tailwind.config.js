@@ -14,12 +14,16 @@ export default {
       margin: {
         34: '136px',
         69: '276px',
+        179: '716px',
       },
       borderWidth: {
         0.75: '0.75px',
       },
       width: {
         25: '100px',
+      },
+      height: {
+        21: '84px',
       },
       fontFamily: {
         'sf-pro': ['SF Pro', 'sans-serif'],

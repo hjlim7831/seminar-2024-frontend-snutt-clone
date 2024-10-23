@@ -16,6 +16,7 @@ import { getUserService } from './usecases/userService';
 import { Landing } from './views/Landing';
 import { Login } from './views/Login';
 import { MyPage } from './views/MyPage';
+import { TimeTable } from './views/TimeTable';
 
 const TOKEN_KEY = 'TOKEN_KEY';
 
@@ -45,9 +46,9 @@ export const App = () => {
   return (
     <serviceContext.Provider value={serviceContextValue}>
       <Router>
-        <div className="min-h-screen flex justify-center">
+        <div className="min-h-screen flex flex-col justify-center">
           <Routes>
-            <Route path="/" element={isLogin ? null : <Landing />} />
+            <Route path="/" element={isLogin ? <TimeTable /> : <Landing />} />
             <Route path="/login" element={<Login saveToken={saveToken} />} />
             <Route path="/mypage" element={<MyPage />} />
           </Routes>

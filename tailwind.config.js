@@ -31,9 +31,9 @@ export default {
         pretendard: ['Pretendard', 'sans-serif'],
       },
       fontSize: {
-        'xxsm': ['10px', { lineHeight: '12px' }],
-        'xsm': ['11px', { lineHeight: '13.2px' }]
-      }
+        xxsm: ['10px', { lineHeight: '12px' }],
+        xsm: ['11px', { lineHeight: '13.2px' }],
+      },
     },
   },
   plugins: [],

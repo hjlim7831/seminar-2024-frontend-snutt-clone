@@ -16,9 +16,9 @@ export const TimeTable = () => {
         </div>
       </div>
       <div
-        className="grid"
+        className="flex-auto grid"
         style={{
-          gridTemplateRows: `1.5fr repeat(${hours.length * 4}, 1fr)`,
+          gridTemplateRows: `minmax(0, 2fr) repeat(${hours.length * 4}, minmax(0, 1fr))`,
           gridTemplateColumns: `3fr repeat(${days.length}, 7fr)`,
         }}
       >
@@ -27,7 +27,7 @@ export const TimeTable = () => {
         {days.map((day, index) => (
           <div
             key={day}
-            className="text-center text-dark-grey font-semibold border-l"
+            className="flex justify-center items-center text-sm text-center text-dark-grey font-semibold border-l"
             style={{
               gridColumnStart: index + 2,
               gridColumnEnd: index + 3,

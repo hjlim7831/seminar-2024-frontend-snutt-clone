@@ -9,7 +9,9 @@ export default {
         'snutt-red': '#E54459',
         'grey-assistive': '#C4C4C4',
         'grey-disabled': '#E3E3E3',
+        'grey-background': '#F7F8F9',
         'dark-grey': '#8A8A8E',
+        red: '#FF0000',
         mint: '#48D8D3',
       },
       margin: {

@@ -20,7 +20,7 @@ import { AuthenticatedPage } from './views/AuthenticatedPage';
 import { Landing } from './views/Landing';
 import { Login } from './views/Login';
 import { MyPage } from './views/MyPage';
-import { TimeTable } from './views/TimeTable';
+import { Timetable } from './views/TimeTable';
 
 export const App = () => {
   const persistStorage = createLocalStorageClient();
@@ -65,7 +65,7 @@ const getAuthenticatedBrowserRouter = () => {
       children: [
         {
           path: '/',
-          element: <TimeTable />,
+          element: <Timetable />,
         },
         {
           path: '/mypage',

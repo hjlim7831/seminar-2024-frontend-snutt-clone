@@ -12,8 +12,6 @@ export const MyPage = () => {
   const { userService } = useServiceContext();
 
   useEffect(() => {
-    if (userService == null) return;
-
     setState((prev) => ({ ...prev, loading: true, error: null }));
 
     let ignore = false;

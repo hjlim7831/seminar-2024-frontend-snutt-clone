@@ -10,6 +10,7 @@ export const IcFriend = (props: SVGProps<SVGSVGElement>) => {
       viewBox="0 0 31 30"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
+      {...props}
     >
       <circle cx="11.5205" cy="9.25" r="4.25" stroke={stroke} />
       <path

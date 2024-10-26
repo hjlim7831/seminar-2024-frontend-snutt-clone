@@ -19,6 +19,9 @@ import { AuthenticatedPage } from './views/AuthenticatedPage';
 import { Landing } from './views/Landing';
 import { Login } from './views/Login';
 import { MyPage } from './views/MyPage';
+import { TimeTable } from './views/TimeTable';
+
+const TOKEN_KEY = 'TOKEN_KEY';
 
 export const App = () => {
   const persistStorage = createLocalStorageClient();
@@ -61,6 +64,10 @@ const getAuthenticatedBrowserRouter = () => {
       path: '/',
       element: <AuthenticatedPage />,
       children: [
+        {
+          path: "/",
+          element: <TimeTable />,
+        },
         {
           path: '/mypage',
           element: <MyPage />,

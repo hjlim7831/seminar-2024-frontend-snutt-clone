@@ -4,7 +4,7 @@ import { Navigation } from '../components/navigation';
 
 export const AuthenticatedPage = () => {
   return (
-    <div className="min-h-screen flex justify-center">
+    <div className="h-screen flex flex-col justify-center">
       <Outlet />
       <Navigation />
     </div>

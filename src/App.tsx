@@ -21,8 +21,6 @@ import { Login } from './views/Login';
 import { MyPage } from './views/MyPage';
 import { TimeTable } from './views/TimeTable';
 
-const TOKEN_KEY = 'TOKEN_KEY';
-
 export const App = () => {
   const persistStorage = createLocalStorageClient();
   const storageRepository = getStorageRepository({ client: persistStorage });
@@ -65,7 +63,7 @@ const getAuthenticatedBrowserRouter = () => {
       element: <AuthenticatedPage />,
       children: [
         {
-          path: "/",
+          path: '/',
           element: <TimeTable />,
         },
         {

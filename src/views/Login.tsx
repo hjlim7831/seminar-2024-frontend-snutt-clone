@@ -4,19 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import { Button } from '../components/button';
 import { Divider } from '../components/divider';
 import { IcArrowBack } from '../components/icons/ic-arrow-back';
-import { useServiceContext } from '../contexts/serviceContext';
-import type { Token } from '../entities/auth';
+import { useTokenContext } from '../contexts/tokenContext';
+import { useUnauthenticatedServiceContext } from '../contexts/unauthenticatedServiceContext';
 
-type LoginProps = {
-  saveToken: (t: Token) => void;
-};
-
-export const Login = ({ saveToken }: LoginProps) => {
+export const Login = () => {
   return (
     <div className="flex flex-col justify-center items-center font-pretendard">
       <ActionBar />
       <Divider className="w-[375px]" />
-      <LoginForm saveToken={saveToken} />
+      <LoginForm />
     </div>
   );
 };
@@ -43,15 +39,18 @@ const ActionBar = () => {
   );
 };
 
-const LoginForm = ({ saveToken }: LoginProps) => {
+const LoginForm = () => {
   const navigate = useNavigate();
+  const { saveToken } = useTokenContext();
 
   const [loginInput, setLoginInput] = useState({
     id: '',
     password: '',
   });
 
-  const { authService } = useServiceContext();
+  const unauthenticatedService = useUnauthenticatedServiceContext();
+
+  const { authService } = unauthenticatedService;
 
   const disabled = loginInput.id === '' || loginInput.password === '';
 
@@ -60,8 +59,9 @@ const LoginForm = ({ saveToken }: LoginProps) => {
     authService
       .signIn(loginInput)
       .then((signInResp) => {
+        console.debug('token:', signInResp.token);
         saveToken(signInResp.token);
-        navigate('/mypage');
+        navigate('/');
       })
       .catch(() => {
         setLoginInput({ id: '', password: '' });

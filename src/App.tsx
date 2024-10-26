@@ -1,60 +1,119 @@
 import './reset.css';
 import './index.css';
 
-import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { useState } from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-import { Navigation } from './components/navigation';
-import { type ServiceContext, serviceContext } from './contexts/serviceContext';
+import { serviceContext } from './contexts/serviceContext';
+import { type TokenContext, tokenContext } from './contexts/tokenContext';
+import { unauthenticatedServiceContext } from './contexts/unauthenticatedServiceContext';
 import type { Token } from './entities/auth';
-import useLocalStorage from './hooks/useLocalStorage';
 import { createFetchClients } from './infrastructures/createFetchClient';
+import { createLocalStorageClient } from './infrastructures/createLocalStorageClient';
 import { getAuthRepository } from './repositories/authRepository';
+import { getStorageRepository } from './repositories/storageRepository';
 import { getUserRepository } from './repositories/userRepository';
 import { getAuthService } from './usecases/authService';
+import { getTokenService } from './usecases/tokenService';
 import { getUserService } from './usecases/userService';
+import { AuthenticatedPage } from './views/AuthenticatedPage';
 import { Landing } from './views/Landing';
 import { Login } from './views/Login';
 import { MyPage } from './views/MyPage';
 import { TimeTable } from './views/TimeTable';
 
-const TOKEN_KEY = 'TOKEN_KEY';
-
 export const App = () => {
-  const [token, setToken] = useLocalStorage<Token | null>(TOKEN_KEY, null);
-  const [serviceContextValue, setServiceContextValue] =
-    useState<ServiceContext | null>(null);
+  const persistStorage = createLocalStorageClient();
+  const storageRepository = getStorageRepository({ client: persistStorage });
+  const tokenService = getTokenService({ storageRepository });
 
-  const isLogin = token !== null;
+  const [token, setToken] = useState<Token | null>(tokenService.getToken());
 
-  useEffect(() => {
-    const httpClient = createFetchClients({
-      baseURL: 'https://wafflestudio-seminar-2024-snutt-redirect.vercel.app',
-      headers: token != null ? { 'x-access-token': token } : {},
-    });
-    const authRespository = getAuthRepository(httpClient);
-    const authService = getAuthService(authRespository);
-    const userService =
-      token !== null ? getUserService(getUserRepository(httpClient)) : null;
-    setServiceContextValue({ authService, userService });
-  }, [token]);
-
-  const saveToken = (t: Token) => {
-    setToken(t);
+  const tokenContextValue: TokenContext = {
+    saveToken: (newToken: string) => {
+      setToken(newToken);
+      tokenService.saveToken(newToken);
+    },
+    clearToken: () => {
+      setToken(null);
+      tokenService.clearToken();
+    },
   };
 
   return (
-    <serviceContext.Provider value={serviceContextValue}>
-      <Router>
-        <div className="min-h-screen flex flex-col justify-center">
-          <Routes>
-            <Route path="/" element={isLogin ? <TimeTable /> : <Landing />} />
-            <Route path="/login" element={<Login saveToken={saveToken} />} />
-            <Route path="/mypage" element={<MyPage />} />
-          </Routes>
-          {isLogin ? <Navigation /> : null}
-        </div>
-      </Router>
-    </serviceContext.Provider>
+    <tokenContext.Provider value={tokenContextValue}>
+      {token !== null ? (
+        <serviceContext.Provider value={{ ...getAuthenticatedService(token) }}>
+          <RouterProvider router={getAuthenticatedBrowserRouter()} />
+        </serviceContext.Provider>
+      ) : (
+        <unauthenticatedServiceContext.Provider
+          value={{ ...getUnauthenticatedService() }}
+        >
+          <RouterProvider router={getUnauthenticatedBrowserRouter()} />
+        </unauthenticatedServiceContext.Provider>
+      )}
+    </tokenContext.Provider>
   );
+};
+
+const getAuthenticatedBrowserRouter = () => {
+  return createBrowserRouter([
+    {
+      path: '/',
+      element: <AuthenticatedPage />,
+      children: [
+        {
+          path: '/',
+          element: <TimeTable />,
+        },
+        {
+          path: '/mypage',
+          element: <MyPage />,
+        },
+      ],
+    },
+  ]);
+};
+
+const getUnauthenticatedBrowserRouter = () => {
+  return createBrowserRouter([
+    {
+      path: '/',
+      element: <Landing />,
+    },
+    {
+      path: '/login',
+      element: <Login />,
+    },
+  ]);
+};
+
+const getAuthenticatedService = (token: string) => {
+  const httpClient = createFetchClients({
+    baseURL: 'https://wafflestudio-seminar-2024-snutt-redirect.vercel.app',
+    headers: { 'x-access-token': token },
+  });
+  const authRespository = getAuthRepository(httpClient);
+  const userRepository = getUserRepository(httpClient);
+
+  const authService = getAuthService(authRespository);
+  const userService = getUserService(userRepository);
+
+  return {
+    authService,
+    userService,
+  };
+};
+
+const getUnauthenticatedService = () => {
+  const httpClient = createFetchClients({
+    baseURL: 'https://wafflestudio-seminar-2024-snutt-redirect.vercel.app',
+  });
+  const authRespository = getAuthRepository(httpClient);
+  const authService = getAuthService(authRespository);
+
+  return {
+    authService,
+  };
 };

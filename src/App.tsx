@@ -5,8 +5,9 @@ import { useState } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { serviceContext } from './contexts/serviceContext';
-import { tokenContext } from './contexts/tokenContext';
+import { type TokenContext, tokenContext } from './contexts/tokenContext';
 import { unauthenticatedServiceContext } from './contexts/unauthenticatedServiceContext';
+import type { Token } from './entities/auth';
 import { createFetchClients } from './infrastructures/createFetchClient';
 import { createLocalStorageClient } from './infrastructures/createLocalStorageClient';
 import { getAuthRepository } from './repositories/authRepository';
@@ -26,9 +27,9 @@ export const App = () => {
   const storageRepository = getStorageRepository({ client: persistStorage });
   const tokenService = getTokenService({ storageRepository });
 
-  const [token, setToken] = useState(tokenService.getToken());
+  const [token, setToken] = useState<Token | null>(tokenService.getToken());
 
-  const tokenContextValue = {
+  const tokenContextValue: TokenContext = {
     saveToken: (newToken: string) => {
       setToken(newToken);
       tokenService.saveToken(newToken);

@@ -1,6 +1,6 @@
 import { type StorageRepository } from '../repositories/storageRepository';
 
-export type TokenService = {
+type TokenService = {
   getToken(): string | null;
   saveToken(token: string): void;
   clearToken(): void;

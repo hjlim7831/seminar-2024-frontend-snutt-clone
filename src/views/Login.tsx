@@ -1,11 +1,11 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { Button } from '../components/button';
 import { Divider } from '../components/divider';
 import { IcArrowBack } from '../components/icons/ic-arrow-back';
 import { useTokenContext } from '../contexts/tokenContext';
-import { unauthenticatedServiceContext } from '../contexts/unauthenticatedServiceContext';
+import { useUnauthenticatedServiceContext } from '../contexts/unauthenticatedServiceContext';
 
 export const Login = () => {
   return (
@@ -48,11 +48,7 @@ const LoginForm = () => {
     password: '',
   });
 
-  const unauthenticatedService = useContext(unauthenticatedServiceContext);
-
-  if (unauthenticatedService === null) {
-    return;
-  }
+  const unauthenticatedService = useUnauthenticatedServiceContext();
 
   const { authService } = unauthenticatedService;
 

@@ -12,8 +12,10 @@ import { createFetchClients } from './infrastructures/createFetchClient';
 import { createLocalStorageClient } from './infrastructures/createLocalStorageClient';
 import { getAuthRepository } from './repositories/authRepository';
 import { getStorageRepository } from './repositories/storageRepository';
+import { getTimeTableRepository } from './repositories/timetableRepository';
 import { getUserRepository } from './repositories/userRepository';
 import { getAuthService } from './usecases/authService';
+import { getTimetableService } from './usecases/timtableService';
 import { getTokenService } from './usecases/tokenService';
 import { getUserService } from './usecases/userService';
 import { AuthenticatedPage } from './views/AuthenticatedPage';
@@ -96,13 +98,16 @@ const getAuthenticatedService = (token: string) => {
   });
   const authRespository = getAuthRepository(httpClient);
   const userRepository = getUserRepository(httpClient);
+  const timetableRepository = getTimeTableRepository(httpClient);
 
   const authService = getAuthService(authRespository);
   const userService = getUserService(userRepository);
+  const timetableService = getTimetableService(timetableRepository);
 
   return {
     authService,
     userService,
+    timetableService,
   };
 };
 

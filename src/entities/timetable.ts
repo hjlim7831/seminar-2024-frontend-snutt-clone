@@ -1,16 +1,19 @@
+import type { Day } from './time';
+
 export type Timetable = {
   title: string;
-  lectureList: Lecture[];
+  lecture_list: Lecture[];
 };
 
-export type Lecture = {
-  courseTitle: string;
-  classTimeJson: ClassTime[];
+type Lecture = {
+  course_title: string;
+  color_index: number;
+  class_time_json: ClassTime[];
 };
 
-export type ClassTime = {
-  day: number;
+type ClassTime = {
+  day: Day;
   place: string;
-  startTime: string;
-  endTime: string;
+  start_time: string;
+  end_time: string;
 };

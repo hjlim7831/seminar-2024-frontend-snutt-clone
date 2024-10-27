@@ -1,8 +1,32 @@
-import { IcListView } from '../components/icons/ic-list-view';
+import { useEffect, useState } from 'react';
 
-export const TimeTable = () => {
-  const days = ['월', '화', '수', '목', '금'];
-  const hours = range(9, 22);
+import { IcListView } from '../components/icons/ic-list-view';
+import { useServiceContext } from '../contexts/serviceContext';
+import {
+  type Day,
+  DAY_LABEL_MAP,
+  DAY_LIST,
+  type Hour,
+  HOUR_LIST,
+  type Minute,
+  MINUTE_HALFLEN,
+  MINUTE_LEN,
+  MINUTE_LIST,
+} from '../entities/time';
+import type { Timetable as TT } from '../entities/timetable';
+
+export const Timetable = () => {
+  const { timetableService } = useServiceContext();
+  const [timetable, setTimetable] = useState<TT | null>(null);
+
+  useEffect(() => {
+    timetableService
+      .getRecentTimetable()
+      .then((table) => {
+        setTimetable(table);
+      })
+      .catch(() => null);
+  }, [timetableService]);
 
   return (
     <>
@@ -11,38 +35,41 @@ export const TimeTable = () => {
           <IcListView />
         </div>
         <div className="flex gap-2 items-center">
-          <div className="text-base font-bold">a안</div>
+          <div className="text-base font-bold">
+            {timetable?.title ?? '로딩 중..'}
+          </div>
           <div className="text-xs text-grey-assistive">(18학점)</div>
         </div>
       </div>
       <div
         className="flex-auto grid"
         style={{
-          gridTemplateRows: `minmax(0, 2fr) repeat(${hours.length * 4}, minmax(0, 1fr))`,
-          gridTemplateColumns: `3fr repeat(${days.length}, 7fr)`,
+          gridTemplateRows: `minmax(0, 1fr) repeat(${HOUR_LIST.length * MINUTE_LEN}, minmax(0, 0.1fr))`,
+          gridTemplateColumns: `3fr repeat(${DAY_LIST.length}, 7fr)`,
         }}
       >
         {/* header */}
         <div className="row-start-1 row-end-2 col-start-1 col-end-2"></div>
-        {days.map((day, index) => (
+        {DAY_LIST.map((day) => (
           <div
             key={day}
             className="flex justify-center items-center text-sm text-center text-dark-grey font-semibold border-l"
             style={{
-              gridColumnStart: index + 2,
-              gridColumnEnd: index + 3,
+              gridColumnStart: day + 2,
+              gridColumnEnd: day + 3,
             }}
           >
-            {day}
+            {DAY_LABEL_MAP[day]}
           </div>
         ))}
+
         {/* time */}
-        {hours.map((hour, index) => (
+        {HOUR_LIST.map((hour, index) => (
           <div
             className="col-start-1 col-end-2 text-right pr-1 text-dark-grey border-t"
             style={{
-              gridRowStart: index * 4 + 2,
-              gridRowEnd: index * 4 + 6,
+              gridRowStart: index * MINUTE_LEN + 2,
+              gridRowEnd: index * (MINUTE_LEN + 1) + 2,
             }}
             key={hour}
           >
@@ -50,41 +77,28 @@ export const TimeTable = () => {
           </div>
         ))}
 
-        <div
-          className="bg-snutt-red text-white px-1.5 flex flex-col gap-0.5 justify-center items-center text-center z-10"
-          style={{
-            gridRowStart: 2,
-            gridRowEnd: 17,
-            gridColumnStart: 3,
-            gridColumnEnd: 4,
-          }}
-        >
-          <div className="text-xxsm">미디어프로그래밍 프로젝트</div>
-          <div className="text-xsm font-semibold">49-301</div>
-        </div>
-
-        <div
-          className="bg-snutt-orange text-white px-1.5 flex flex-col gap-0.5 justify-center items-center text-center z-10"
-          style={{
-            gridRowStart: 6,
-            gridRowEnd: 21,
-            gridColumnStart: 5,
-            gridColumnEnd: 6,
-          }}
-        >
-          <div className="text-xxsm">편집디자인</div>
-          <div className="text-xsm font-semibold">49-215</div>
-        </div>
+        {timetable?.lecture_list.map((l) =>
+          l.class_time_json.map((c) => (
+            <div
+              className={`${COLOR_MAP[l.color_index] ?? 'bg-black'} text-white px-1.5 flex flex-col gap-0.5 justify-center items-center text-center z-10`}
+              key={`${c.day}-${c.start_time}-${c.end_time}`}
+              style={convertToGridState(c.day, c.start_time, c.end_time)}
+            >
+              <div className="text-xxsm">{l.course_title}</div>
+              <div className="text-xsm font-semibold">{c.place}</div>
+            </div>
+          )),
+        )}
 
         {/* empty table */}
-        {days.map((_, indexCol) =>
-          hours.map((_, indexRow) => (
+        {DAY_LIST.map((indexCol) =>
+          HOUR_LIST.map((_, indexRow) => (
             <>
               <div
                 className="border-t border-l"
                 style={{
-                  gridRowStart: 4 * indexRow + 2,
-                  gridRowEnd: 4 * indexRow + 4,
+                  gridRowStart: MINUTE_LEN * indexRow + 2,
+                  gridRowEnd: MINUTE_LEN * indexRow + MINUTE_HALFLEN + 2,
                   gridColumnStart: indexCol + 2,
                   gridColumnEnd: indexCol + 3,
                 }}
@@ -92,8 +106,8 @@ export const TimeTable = () => {
               <div
                 className="border-t border-l border-t-gray-100"
                 style={{
-                  gridRowStart: 4 * indexRow + 4,
-                  gridRowEnd: 4 * indexRow + 6,
+                  gridRowStart: MINUTE_LEN * indexRow + MINUTE_HALFLEN + 2,
+                  gridRowEnd: MINUTE_LEN * (indexRow + 1) + 2,
                   gridColumnStart: indexCol + 2,
                   gridColumnEnd: indexCol + 3,
                 }}
@@ -106,5 +120,30 @@ export const TimeTable = () => {
   );
 };
 
-const range = (start: number, end: number): number[] =>
-  Array.from({ length: end - start + 1 }, (_, i) => start + i);
+const convertToGridState = (day: Day, startTime: string, endTime: string) => {
+  const s = parseTime(startTime);
+  const e = parseTime(endTime);
+
+  return {
+    gridRowStart: 2 + (s.hour - 9) * MINUTE_LEN + MINUTE_LIST.indexOf(s.minute),
+    gridRowEnd: 2 + (e.hour - 9) * MINUTE_LEN + MINUTE_LIST.indexOf(e.minute),
+    gridColumnStart: day + 2,
+    gridColumnEnd: day + 3,
+  };
+};
+
+const parseTime = (time: string): { hour: Hour; minute: Minute } => {
+  const [hourStr, minuteStr] = time.split(':');
+  if (hourStr === undefined || minuteStr === undefined) {
+    throw new Error("Invalid time format: expected 'HH:MM'");
+  }
+  const hour = parseInt(hourStr, 10) as Hour;
+  const minute = parseInt(minuteStr, 10) as Minute;
+
+  return { hour, minute };
+};
+
+const COLOR_MAP: Record<number, string> = {
+  0: 'bg-snutt-red',
+  1: 'bg-snutt-orange',
+};

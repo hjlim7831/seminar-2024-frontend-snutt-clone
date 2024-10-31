@@ -7,7 +7,6 @@ export const Landing = () => {
   const navigate = useNavigate();
 
   const handleOnClickLogin = () => {
-    console.debug('클릭 작동');
     navigate('/login');
   };
 

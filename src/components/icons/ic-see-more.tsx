@@ -1,7 +1,7 @@
 import type { SVGProps } from 'react';
 
 export const IcSeeMore = (props: SVGProps<SVGSVGElement>) => {
-  const stroke = props.stroke !== undefined ? props.stroke : 'black';
+  const stroke = props.stroke !== undefined ? props.stroke : 'currentColor';
 
   return (
     <svg

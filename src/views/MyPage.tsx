@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 import { IcChevronRight } from '../components/icons/ic-chevron-right';
 import { IcSeeMore } from '../components/icons/ic-see-more';
+import { IcUserFilled } from '../components/icons/ic-user-filled';
 import { useServiceContext } from '../contexts/serviceContext';
 import { useTokenContext } from '../contexts/tokenContext';
 import type { User } from '../entities/user';
@@ -28,9 +29,19 @@ const MyPageHeader = () => {
   );
 };
 
+const MyAccountLabel = () => {
+  return (
+    <div className="flex items-center text-[13px] gap-1">
+      <IcUserFilled width="15" className="text-grey-assistive" />
+      <div>내 계정</div>
+    </div>
+  );
+};
+
 const MyAccount = () => {
   return (
-    <div className="w-full bg-white p-2">
+    <div className="w-full bg-white p-4 flex justify-between">
+      <MyAccountLabel />
       <MyNickname />
     </div>
   );
@@ -76,12 +87,14 @@ const MyNickname = () => {
   }, [userService]);
 
   return (
-    <>
+    <div className="flex items-center gap-1">
       {state.loading ? (
         // Loading spinner
         <div className="flex justify-center items-center space-x-2">
-          <div className="w-8 h-8 border-4 border-dashed rounded-full animate-spin border-mint-500"></div>
-          <div className="text-lg font-semibold text-gray-500">로딩 중...</div>
+          <div className="w-4 h-4 border-2 border-dashed rounded-full animate-spin border-mint-500"></div>
+          <div className="text-[13px] font-semibold text-gray-500">
+            로딩 중...
+          </div>
         </div>
       ) : state.error !== null ? (
         // Error message
@@ -90,16 +103,17 @@ const MyNickname = () => {
         </div>
       ) : state.user !== null ? (
         // Display user nickname
-        <div className="text-center font-bold text-lg">
+        <div className="text-center text-[13px] text-dark-grey">
           {`${state.user.nickname.nickname}#${state.user.nickname.tag}`}
         </div>
       ) : (
         // Failed
-        <div className="text-center text-red-500 text-lg font-bold">
+        <div className="text-center text-red-500 text-[13px] font-bold">
           유저 불러오기 실패!
         </div>
       )}
-    </>
+      <IcChevronRight width="12" className="text-black" />
+    </div>
   );
 };
 
@@ -122,7 +136,7 @@ const Logout = () => {
       onClick={handleOnClick}
     >
       <div>로그아웃</div>
-      <IcChevronRight width="12" />
+      <IcChevronRight width="12" className="text-black" />
     </div>
   );
 };

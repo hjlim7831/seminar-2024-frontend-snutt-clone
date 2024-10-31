@@ -1,7 +1,7 @@
 import type { SVGProps } from 'react';
 
 export const IcSearch = (props: SVGProps<SVGSVGElement>) => {
-  const fill = props.fill !== undefined ? props.fill : 'black';
+  const fill = props.fill !== undefined ? props.fill : 'currentColor';
 
   return (
     <svg

@@ -18,7 +18,6 @@ export const getTokenService = ({
     },
     clearToken: () => {
       storageRepository.remove('snutt_token');
-      storageRepository.remove('snutt_token');
     },
   };
 };

@@ -7,6 +7,8 @@ export default {
       colors: {
         'snutt-orange': '#F58D3D',
         'snutt-red': '#E54459',
+        'snutt-blue': '#1bd0c8',
+        'snutt-green': '#a6d930',
         'grey-assistive': '#C4C4C4',
         'grey-disabled': '#E3E3E3',
         'grey-background': '#F7F8F9',

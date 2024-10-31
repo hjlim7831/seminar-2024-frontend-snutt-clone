@@ -1,10 +1,11 @@
 import type { SVGProps } from 'react';
 
 export const IcChevronRight = (props: SVGProps<SVGSVGElement>) => {
-  const stroke = props.stroke !== undefined ? props.stroke : 'black';
+  const stroke = props.stroke !== undefined ? props.stroke : 'currentColor';
 
   return (
     <svg
+      className={props.className}
       width="16"
       height="16"
       viewBox="-0.5 0 25 25"

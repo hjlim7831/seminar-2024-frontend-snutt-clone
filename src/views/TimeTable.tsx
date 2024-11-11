@@ -44,8 +44,8 @@ export const Timetable = () => {
       <div
         className="flex-auto grid"
         style={{
-          gridTemplateRows: `minmax(0, 1fr) repeat(${HOUR_LIST.length * MINUTE_LEN}, minmax(0, 0.1fr))`,
-          gridTemplateColumns: `3fr repeat(${DAY_LIST.length}, 7fr)`,
+          gridTemplateRows: `2vh repeat(${HOUR_LIST.length * MINUTE_LEN}, 0.6vh)`,
+          gridTemplateColumns: `10vw repeat(${DAY_LIST.length}, 1fr)`,
         }}
       >
         {/* header */}

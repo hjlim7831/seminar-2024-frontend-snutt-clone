@@ -9,6 +9,7 @@ type Lecture = {
   course_title: string;
   color_index: number;
   class_time_json: ClassTime[];
+  credit: number;
 };
 
 type ClassTime = {

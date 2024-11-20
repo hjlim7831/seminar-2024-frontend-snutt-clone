@@ -10,7 +10,7 @@ import { IcTimeTable } from '../icons/ic-time-table';
 export const Navigation = () => {
   const navigation = useNavigate();
   return (
-    <div className="w-full h-21 flex justify-between pt-[10px] pb-[44px] pl-[30px] pr-[30px] border-t">
+    <div className="w-full flex justify-between pt-[10px] pb-[44px] pl-[30px] pr-[30px] border-t">
       <IconWrapper
         onClick={() => {
           navigation('/');

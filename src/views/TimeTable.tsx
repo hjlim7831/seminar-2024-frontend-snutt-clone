@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import { IcList } from '../components/icons/ic-list';
 import { IcListView } from '../components/icons/ic-list-view';
 import { useServiceContext } from '../contexts/serviceContext';
 import {
@@ -18,6 +20,7 @@ import type { Timetable as TT } from '../entities/timetable';
 export const Timetable = () => {
   const { timetableService } = useServiceContext();
   const [timetable, setTimetable] = useState<TT | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     timetableService
@@ -31,16 +34,22 @@ export const Timetable = () => {
   return (
     <>
       <div className="overflow-auto max-h-[100vh-84px]">
-        <div className="flex pt-2 pr-3 pb-1.5 pl-4 gap-2.5 items-center">
-          <div className="">
+        <div className="flex pt-2 pr-3 pb-1.5 pl-4 items-center justify-between">
+          <div className="flex items-center gap-2.5">
             <IcListView />
-          </div>
-          <div className="flex gap-2 items-center">
-            <div className="text-base font-bold">
-              {timetable?.title ?? '로딩 중..'}
+            <div className="flex gap-2 items-center">
+              <div className="text-base font-bold">
+                {timetable?.title ?? '로딩 중..'}
+              </div>
+              <div className="text-xs text-grey-assistive">(18학점)</div>
             </div>
-            <div className="text-xs text-grey-assistive">(18학점)</div>
           </div>
+          <IcList
+            className="cursor-pointer"
+            onClick={() => {
+              navigate('/list');
+            }}
+          />
         </div>
         <div
           className="flex-auto grid"

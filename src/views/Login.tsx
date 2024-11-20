@@ -9,9 +9,9 @@ import { useUnauthenticatedServiceContext } from '../contexts/unauthenticatedSer
 
 export const Login = () => {
   return (
-    <div className="flex flex-col justify-center items-center font-pretendard">
+    <div className="flex flex-1 flex-col font-pretendard">
       <ActionBar />
-      <Divider className="w-[375px]" />
+      <Divider />
       <LoginForm />
     </div>
   );
@@ -24,17 +24,15 @@ const ActionBar = () => {
   };
 
   return (
-    <div className="w-[375px] flex items-center justify-between p-2">
+    <div className="grid grid-cols-3 p-2">
       <div
         onClick={handleOnClick}
-        className="flex items-center gap-1 cursor-pointer"
+        className="flex cursor-pointer items-center gap-1"
       >
         <IcArrowBack className="text-black" />
         <div className="font-[500]">뒤로</div>
       </div>
-      <div className="absolute left-1/2 transform -translate-x-1/2 font-bold">
-        로그인
-      </div>
+      <div className="text-center font-bold">로그인</div>
     </div>
   );
 };
@@ -81,7 +79,7 @@ const LoginForm = () => {
 
   return (
     <form
-      className="p-4"
+      className="flex flex-col p-4"
       onSubmit={(e) => {
         handleSubmit(e);
       }}
@@ -102,13 +100,13 @@ const LoginForm = () => {
           required
         />
       </div>
-      <Divider className="w-[311px] mb-2 mt-2" />
+      <Divider className="my-2" />
       <div className="flex flex-col gap-2">
         <label htmlFor="password" className="text-dark-grey">
           비밀번호
         </label>
         <input
-          className="focus:outline-none"
+          className="outline-none"
           type="password"
           id="password"
           value={loginInput.password}
@@ -119,7 +117,7 @@ const LoginForm = () => {
           required
         />
       </div>
-      <Divider className="w-[311px] mb-2 mt-2" />
+      <Divider className="my-2" />
       <Button color="mint" variant="contained" disabled={disabled}>
         로그인
       </Button>

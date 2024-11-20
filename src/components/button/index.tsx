@@ -19,7 +19,7 @@ export const Button = ({
 }: Props) => {
   const backgroundClassName =
     variant === 'contained'
-      ? `w-[311px] h-[41px] p-3 rounded-[6px] gap-1 flex items-center justify-center disabled:bg-grey-disabled ${colorMap[color].bg}`
+      ? `h-[41px] p-3 rounded-[6px] gap-1 flex items-center justify-center disabled:bg-grey-disabled ${colorMap[color].bg}`
       : '';
 
   const textClassName = `font-pretendard text-[14px] font-bold ${colorMap[color].text} leading-[16.71px] text-left`;

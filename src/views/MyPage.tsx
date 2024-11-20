@@ -10,7 +10,7 @@ import type { User } from '../entities/user';
 
 export const MyPage = () => {
   return (
-    <div className="flex flex-col justify-start h-screen bg-grey-background gap-2 font-pretendard">
+    <div className="flex flex-1 flex-col gap-2 bg-grey-background font-pretendard">
       <MyPageHeader />
       <MyAccount />
       <Logout />
@@ -20,8 +20,8 @@ export const MyPage = () => {
 
 const MyPageHeader = () => {
   return (
-    <div className="w-full bg-white p-2">
-      <div className="flex justify-cstart items-center gap-2">
+    <div className="bg-white p-2">
+      <div className="flex items-center gap-2">
         <IcSeeMore />
         <div className="font-bold">더보기</div>
       </div>
@@ -31,7 +31,7 @@ const MyPageHeader = () => {
 
 const MyAccountLabel = () => {
   return (
-    <div className="flex items-center text-[13px] gap-1">
+    <div className="flex items-center gap-1 text-[13px]">
       <IcUserFilled width="15" className="text-grey-assistive" />
       <div>내 계정</div>
     </div>
@@ -40,7 +40,7 @@ const MyAccountLabel = () => {
 
 const MyAccount = () => {
   return (
-    <div className="w-full bg-white p-4 flex justify-between">
+    <div className="flex justify-between bg-white p-4">
       <MyAccountLabel />
       <MyNickname />
     </div>
@@ -90,15 +90,15 @@ const MyNickname = () => {
     <div className="flex items-center gap-1">
       {state.loading ? (
         // Loading spinner
-        <div className="flex justify-center items-center space-x-2">
-          <div className="w-4 h-4 border-2 border-dashed rounded-full animate-spin border-mint-500"></div>
+        <div className="flex items-center justify-center space-x-2">
+          <div className="border-mint-500 h-4 w-4 animate-spin rounded-full border-2 border-dashed"></div>
           <div className="text-[13px] font-semibold text-gray-500">
             로딩 중...
           </div>
         </div>
       ) : state.error !== null ? (
         // Error message
-        <div className="text-center text-red-500 text-lg font-bold">
+        <div className="text-red-500 text-center text-lg font-bold">
           {state.error}
         </div>
       ) : state.user !== null ? (
@@ -108,7 +108,7 @@ const MyNickname = () => {
         </div>
       ) : (
         // Failed
-        <div className="text-center text-red-500 text-[13px] font-bold">
+        <div className="text-red-500 text-center text-[13px] font-bold">
           유저 불러오기 실패!
         </div>
       )}
@@ -131,12 +131,12 @@ const Logout = () => {
     navigate('/');
   };
   return (
-    <div
-      className="bg-white w-full p-2 pl-4 pr-4 text-red text-[13px] flex justify-between items-center cursor-pointer"
+    <button
+      className="flex cursor-pointer items-center justify-between bg-white py-2 pl-4 pr-4 text-[13px] text-red"
       onClick={handleOnClick}
     >
       <div>로그아웃</div>
       <IcChevronRight width="12" className="text-black" />
-    </div>
+    </button>
   );
 };

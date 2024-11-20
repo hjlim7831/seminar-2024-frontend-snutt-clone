@@ -39,9 +39,10 @@ export const Timetable = () => {
 
   return (
     <>
-      <div className="flex pt-2 pr-3 pb-1.5 pl-4 gap-2.5 items-center justify-between">
-        <div className="flex items-center gap-2">
-          <IcListView />
+      <div className="flex items-center gap-3 pb-1.5 pl-4 pr-3 pt-2">
+        <IcListView />
+
+        <div className="flex flex-1 items-center gap-2">
           <div className="text-base font-bold">
             {timetable?.title ?? '로딩 중..'}
           </div>
@@ -53,6 +54,7 @@ export const Timetable = () => {
             학점)
           </div>
         </div>
+
         <IcList
           className="cursor-pointer"
           onClick={() => {
@@ -61,18 +63,18 @@ export const Timetable = () => {
         />
       </div>
       <div
-        className="grid h-full"
+        className="grid flex-1"
         style={{
           gridTemplateRows: `30px repeat(${HOUR_LIST.length * MINUTE_LEN}, 1fr)`,
           gridTemplateColumns: `10vw repeat(${DAY_LIST.length}, 1fr)`,
         }}
       >
         {/* header */}
-        <div className="row-start-1 row-end-2 col-start-1 col-end-2"></div>
+        <div className="col-start-1 col-end-2 row-start-1 row-end-2"></div>
         {DAY_LIST.map((day) => (
           <div
             key={day}
-            className="flex justify-center items-center text-sm text-center text-dark-grey font-semibold border-l"
+            className="flex items-center justify-center border-l text-sm font-semibold text-dark-grey"
             style={{
               gridColumnStart: day + 2,
               gridColumnEnd: day + 3,
@@ -85,7 +87,7 @@ export const Timetable = () => {
         {/* time */}
         {HOUR_LIST.map((hour, index) => (
           <div
-            className="col-start-1 col-end-2 text-right pr-1 text-dark-grey border-t"
+            className="col-start-1 col-end-2 border-t pr-1 text-right text-dark-grey"
             style={{
               gridRowStart: index * MINUTE_LEN + 2,
               gridRowEnd: index * MINUTE_LEN + MINUTE_LEN + 2,
@@ -99,14 +101,14 @@ export const Timetable = () => {
         {timetable?.lecture_list.map((l) =>
           l.class_time_json.map((c) => (
             <div
-              className={`${COLOR_MAP[l.color_index] ?? 'bg-black'} text-white px-1.5 flex flex-col gap-0.5 justify-center items-center text-center z-10 overflow-hidden`}
+              className={`${COLOR_MAP[l.color_index] ?? 'bg-black'} z-10 flex flex-col items-center justify-center gap-0.5 overflow-hidden px-1.5 text-center text-white`}
               key={`${c.day}-${c.start_time}-${c.end_time}`}
               style={convertToGridState(c.day, c.start_time, c.end_time)}
               onClick={() => {
                 handleOnClick(timetable._id, l);
               }}
             >
-              <div className="text-xxsm text-ellipis overflow-hidden max-h-6">
+              <div className="text-ellipis max-h-6 overflow-hidden text-xxsm">
                 {l.course_title}
               </div>
               <div className="text-xsm font-semibold">{c.place}</div>
@@ -119,7 +121,7 @@ export const Timetable = () => {
           HOUR_LIST.map((_, indexRow) => (
             <>
               <div
-                className="border-t border-l"
+                className="border-l border-t"
                 style={{
                   gridRowStart: MINUTE_LEN * indexRow + 2,
                   gridRowEnd: MINUTE_LEN * indexRow + MINUTE_HALFLEN + 2,
@@ -128,7 +130,7 @@ export const Timetable = () => {
                 }}
               ></div>
               <div
-                className="border-t border-l border-t-gray-100"
+                className="border-l border-t border-t-gray-100"
                 style={{
                   gridRowStart: MINUTE_LEN * indexRow + MINUTE_HALFLEN + 2,
                   gridRowEnd: MINUTE_LEN * (indexRow + 1) + 2,

@@ -29,10 +29,11 @@ export const TimeTableList = () => {
       .catch(() => null);
   }, [timetableService]);
   return (
-    <div className="flex-1">
+    <div>
       <TimeTableListHeader timetable={timetable} />
       {timetable?.lecture_list.map((lecture, index) => (
         <div
+          className="p-2"
           key={index}
           onClick={() => {
             handleOnClick(timetable._id, lecture);
@@ -52,9 +53,9 @@ type TimeTableListHeaderProps = {
 const TimeTableListHeader = ({ timetable }: TimeTableListHeaderProps) => {
   const navigate = useNavigate();
   return (
-    <div className="w-full bg-white p-2">
-      <div
-        className="flex justify-cstart items-center gap-2 cursor-pointer"
+    <div className="bg-white p-2">
+      <button
+        className="flex cursor-pointer items-center gap-2"
         onClick={() => {
           navigate('/');
         }}
@@ -65,7 +66,7 @@ const TimeTableListHeader = ({ timetable }: TimeTableListHeaderProps) => {
         ) : (
           <div className="font-bold">로딩 중..</div>
         )}
-      </div>
+      </button>
     </div>
   );
 };
@@ -76,14 +77,14 @@ type LectureItemProps = {
 
 const LectureItem = ({ lecture }: LectureItemProps) => {
   return (
-    <div className="m-2">
+    <div>
       <div className="flex justify-between">
-        <div className="font-bold text-[14px]">{lecture.course_title}</div>
+        <div className="text-[14px] font-bold">{lecture.course_title}</div>
         <div className="text-[13px]">
           {lecture.instructor} / {lecture.credit}학점
         </div>
       </div>
-      <div className="m-1">
+      <div className="p-1">
         <div className="flex items-center gap-2">
           <IcTag width="12px" />
           <div className="text-[12px]">

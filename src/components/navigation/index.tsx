@@ -10,7 +10,7 @@ import { IcTimeTable } from '../icons/ic-time-table';
 export const Navigation = () => {
   const navigation = useNavigate();
   return (
-    <div className="w-full flex justify-between pt-[10px] pb-[44px] pl-[30px] pr-[30px] border-t">
+    <div className="flex justify-between border-t px-[30px] py-2.5">
       <IconWrapper
         onClick={() => {
           navigation('/');
@@ -49,7 +49,7 @@ const IconWrapper = ({ children, onClick }: IconWrapperProps) => {
   };
   return (
     <div
-      className="w-[30px] h-[30px] flex justify-center items-center cursor-pointer"
+      className="flex h-[30px] w-[30px] cursor-pointer items-center justify-center"
       onClick={handleOnClick}
     >
       {children}

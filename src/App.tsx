@@ -23,6 +23,7 @@ import { Landing } from './views/Landing';
 import { Login } from './views/Login';
 import { MyPage } from './views/MyPage';
 import { Timetable } from './views/TimeTable';
+import { TimeTableList } from './views/TimeTableList';
 
 export const App = () => {
   const persistStorage = createLocalStorageClient();
@@ -72,6 +73,10 @@ const getAuthenticatedBrowserRouter = () => {
         {
           path: '/mypage',
           element: <MyPage />,
+        },
+        {
+          path: '/list',
+          element: <TimeTableList />,
         },
       ],
     },

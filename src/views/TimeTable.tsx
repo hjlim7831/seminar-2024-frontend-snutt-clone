@@ -1,5 +1,7 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import { IcList } from '../components/icons/ic-list';
 import { IcListView } from '../components/icons/ic-list-view';
 import { useServiceContext } from '../contexts/serviceContext';
 import {
@@ -18,6 +20,7 @@ import type { Timetable as TT } from '../entities/timetable';
 export const Timetable = () => {
   const { timetableService } = useServiceContext();
   const [timetable, setTimetable] = useState<TT | null>(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     timetableService
@@ -45,6 +48,13 @@ export const Timetable = () => {
               .reduce((p, c) => p + c)}
             학점)
           </div>
+          <div className="flex-1"></div>
+          <IcList
+            className="cursor-pointer"
+            onClick={() => {
+              navigate('/list');
+            }}
+          />
         </div>
       </div>
       <div

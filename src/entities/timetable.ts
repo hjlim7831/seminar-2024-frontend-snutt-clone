@@ -5,8 +5,12 @@ export type Timetable = {
   lecture_list: Lecture[];
 };
 
-type Lecture = {
+export type Lecture = {
   course_title: string;
+  academic_year: string;
+  category: string;
+  department: string;
+  instructor: string;
   color_index: number;
   class_time_json: ClassTime[];
   credit: number;

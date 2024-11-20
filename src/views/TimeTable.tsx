@@ -39,11 +39,9 @@ export const Timetable = () => {
 
   return (
     <>
-      <div className="flex pt-2 pr-3 pb-1.5 pl-4 gap-2.5 items-center">
-        <div className="">
+      <div className="flex pt-2 pr-3 pb-1.5 pl-4 gap-2.5 items-center justify-between">
+        <div className="flex items-center gap-2">
           <IcListView />
-        </div>
-        <div className="flex gap-2 items-center">
           <div className="text-base font-bold">
             {timetable?.title ?? '로딩 중..'}
           </div>
@@ -54,19 +52,18 @@ export const Timetable = () => {
               .reduce((p, c) => p + c, 0)}
             학점)
           </div>
-          <div className="flex-1"></div>
-          <IcList
-            className="cursor-pointer"
-            onClick={() => {
-              navigate('/list');
-            }}
-          />
         </div>
+        <IcList
+          className="cursor-pointer"
+          onClick={() => {
+            navigate('/list');
+          }}
+        />
       </div>
       <div
         className="grid h-full"
         style={{
-          gridTemplateRows: `30px repeat(${HOUR_LIST.length * MINUTE_LEN}, minmax(0, 1fr))`,
+          gridTemplateRows: `30px repeat(${HOUR_LIST.length * MINUTE_LEN}, 1fr)`,
           gridTemplateColumns: `10vw repeat(${DAY_LIST.length}, 1fr)`,
         }}
       >
@@ -102,17 +99,17 @@ export const Timetable = () => {
         {timetable?.lecture_list.map((l) =>
           l.class_time_json.map((c) => (
             <div
-              className={`${COLOR_MAP[l.color_index] ?? 'bg-black'} flex flex-col justify-center px-1.5 py-1 z-10`}
+              className={`${COLOR_MAP[l.color_index] ?? 'bg-black'} text-white px-1.5 flex flex-col gap-0.5 justify-center items-center text-center z-10 overflow-hidden`}
               key={`${c.day}-${c.start_time}-${c.end_time}`}
               style={convertToGridState(c.day, c.start_time, c.end_time)}
               onClick={() => {
                 handleOnClick(timetable._id, l);
               }}
             >
-              <div className="text-white flex flex-col gap-0.5 justify-center items-center text-center h-1">
-                <div className="text-xxsm">{l.course_title}</div>
-                <div className="text-xsm font-semibold">{c.place}</div>
+              <div className="text-xxsm text-ellipis overflow-hidden max-h-6">
+                {l.course_title}
               </div>
+              <div className="text-xsm font-semibold">{c.place}</div>
             </div>
           )),
         )}

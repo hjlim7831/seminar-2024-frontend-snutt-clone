@@ -18,7 +18,6 @@ import {
 import type { Lecture, Timetable as TT } from '../entities/timetable';
 
 export const Timetable = () => {
-  const navigate = useNavigate();
   const { timetableService } = useServiceContext();
   const [timetable, setTimetable] = useState<TT | null>(null);
   const navigate = useNavigate();

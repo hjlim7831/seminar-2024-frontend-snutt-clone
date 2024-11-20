@@ -51,7 +51,7 @@ export const Timetable = () => {
             (
             {timetable?.lecture_list
               .map((lecture) => lecture.credit)
-              .reduce((p, c) => p + c)}
+              .reduce((p, c) => p + c, 0)}
             학점)
           </div>
           <div className="flex-1"></div>

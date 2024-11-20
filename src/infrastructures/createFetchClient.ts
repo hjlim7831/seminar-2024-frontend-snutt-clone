@@ -51,6 +51,21 @@ export const createFetchClients = (
         throw Error(JSON.stringify(responseBody));
       }
     },
+
+    async delete<D = unknown>(url: Url, config?: Partial<Config & D>) {
+      const fetchUrl = `${baseURL}${url}${paramsToString(config?.params)}`;
+      const fetchHeaders = { ...headers };
+      const response = await fetch(fetchUrl, {
+        headers: fetchHeaders,
+        method: 'DELETE',
+      });
+      const responseBody = (await response.json().catch(() => null)) as D;
+      if (response.ok) {
+        return { data: responseBody };
+      } else {
+        throw Error(JSON.stringify(responseBody));
+      }
+    },
   };
 };
 

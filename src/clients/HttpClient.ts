@@ -11,4 +11,8 @@ export type HttpClient = {
     body?: B,
     config?: Partial<Config & D & B>,
   ): Promise<{ data: D }>;
+  delete<D = unknown>(
+    url: Url,
+    config?: Partial<Config & D>,
+  ): Promise<{ data: D }>;
 };

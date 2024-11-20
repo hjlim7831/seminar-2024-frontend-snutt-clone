@@ -15,12 +15,19 @@ import {
   MINUTE_LEN,
   MINUTE_LIST,
 } from '../entities/time';
-import type { Timetable as TT } from '../entities/timetable';
+import type { Lecture, Timetable as TT } from '../entities/timetable';
 
 export const Timetable = () => {
+  const navigate = useNavigate();
   const { timetableService } = useServiceContext();
   const [timetable, setTimetable] = useState<TT | null>(null);
   const navigate = useNavigate();
+
+  const handleOnClick = (timetableId: string, lecture: Lecture) => {
+    navigate(`/timetables/${timetableId}/lectures/${lecture._id}`, {
+      state: { lecture },
+    });
+  };
 
   useEffect(() => {
     timetableService
@@ -99,6 +106,9 @@ export const Timetable = () => {
               className={`${COLOR_MAP[l.color_index] ?? 'bg-black'} text-white px-1.5 flex flex-col gap-0.5 justify-center items-center text-center z-10`}
               key={`${c.day}-${c.start_time}-${c.end_time}`}
               style={convertToGridState(c.day, c.start_time, c.end_time)}
+              onClick={() => {
+                handleOnClick(timetable._id, l);
+              }}
             >
               <div className="text-xxsm">{l.course_title}</div>
               <div className="text-xsm font-semibold">{c.place}</div>

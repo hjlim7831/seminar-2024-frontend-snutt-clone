@@ -66,7 +66,7 @@ export const Timetable = () => {
       <div
         className="grid h-full"
         style={{
-          gridTemplateRows: `30px repeat(${HOUR_LIST.length * MINUTE_LEN}, 1fr)`,
+          gridTemplateRows: `30px repeat(${HOUR_LIST.length * MINUTE_LEN}, minmax(0, 1fr))`,
           gridTemplateColumns: `10vw repeat(${DAY_LIST.length}, 1fr)`,
         }}
       >
@@ -102,15 +102,17 @@ export const Timetable = () => {
         {timetable?.lecture_list.map((l) =>
           l.class_time_json.map((c) => (
             <div
-              className={`${COLOR_MAP[l.color_index] ?? 'bg-black'} text-white px-1.5 flex flex-col gap-0.5 justify-center items-center text-center z-10`}
+              className={`${COLOR_MAP[l.color_index] ?? 'bg-black'} flex flex-col justify-center px-1.5 py-1 z-10`}
               key={`${c.day}-${c.start_time}-${c.end_time}`}
               style={convertToGridState(c.day, c.start_time, c.end_time)}
               onClick={() => {
                 handleOnClick(timetable._id, l);
               }}
             >
-              <div className="text-xxsm">{l.course_title}</div>
-              <div className="text-xsm font-semibold">{c.place}</div>
+              <div className="text-white flex flex-col gap-0.5 justify-center items-center text-center h-1">
+                <div className="text-xxsm">{l.course_title}</div>
+                <div className="text-xsm font-semibold">{c.place}</div>
+              </div>
             </div>
           )),
         )}

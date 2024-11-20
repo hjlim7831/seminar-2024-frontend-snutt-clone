@@ -30,7 +30,7 @@ export const Timetable = () => {
 
   return (
     <>
-      <div className="overflow-auto max-h-[100vh-84px]">
+      <div className="overflow-auto">
         <div className="flex pt-2 pr-3 pb-1.5 pl-4 gap-2.5 items-center">
           <div className="">
             <IcListView />
@@ -39,13 +39,20 @@ export const Timetable = () => {
             <div className="text-base font-bold">
               {timetable?.title ?? '로딩 중..'}
             </div>
-            <div className="text-xs text-grey-assistive">(18학점)</div>
+            <div className="text-xs text-grey-assistive">
+              (
+              {timetable?.lecture_list
+                .map((lecture) => lecture.credit)
+                .reduce((p, c) => p + c)}
+              학점)
+            </div>
           </div>
         </div>
+        <div className="flex-1"></div>
         <div
           className="flex-auto grid"
           style={{
-            gridTemplateRows: `2vh repeat(${HOUR_LIST.length * MINUTE_LEN}, 0.55vh)`,
+            gridTemplateRows: `2vh repeat(${HOUR_LIST.length * MINUTE_LEN}, 0.49vh)`,
             gridTemplateColumns: `10vw repeat(${DAY_LIST.length}, 1fr)`,
           }}
         >

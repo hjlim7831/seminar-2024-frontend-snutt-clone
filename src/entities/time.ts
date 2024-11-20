@@ -28,6 +28,8 @@ export const HOUR_LIST: Hour[] = [
 ];
 
 export type Minute = 0 | 5 | 10 | 15 | 20 | 25 | 30 | 35 | 40 | 45 | 50 | 55;
-export const MINUTE_LIST: Minute[] = [0, 5, 10, 15, 20, 25, 30, 35, 40, 50, 55];
+export const MINUTE_LIST: Minute[] = [
+  0, 5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 55,
+];
 export const MINUTE_LEN = MINUTE_LIST.length;
 export const MINUTE_HALFLEN = (MINUTE_LEN / 2) | 0;

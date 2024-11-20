@@ -10,8 +10,15 @@ import { DAY_LABEL_MAP } from '../entities/time';
 import type { Lecture, Timetable as TT } from '../entities/timetable';
 
 export const TimeTableList = () => {
+  const navigate = useNavigate();
   const { timetableService } = useServiceContext();
   const [timetable, setTimetable] = useState<TT | null>(null);
+
+  const handleOnClick = (timetableId: string, lecture: Lecture) => {
+    navigate(`/timetables/${timetableId}/lectures/${lecture._id}`, {
+      state: { lecture },
+    });
+  };
 
   useEffect(() => {
     timetableService
@@ -22,10 +29,17 @@ export const TimeTableList = () => {
       .catch(() => null);
   }, [timetableService]);
   return (
-    <div>
+    <div className="flex-1">
       <TimeTableListHeader timetable={timetable} />
       {timetable?.lecture_list.map((lecture, index) => (
-        <LectureItem lecture={lecture} key={index} />
+        <div
+          key={index}
+          onClick={() => {
+            handleOnClick(timetable._id, lecture);
+          }}
+        >
+          <LectureItem lecture={lecture} />
+        </div>
       ))}
     </div>
   );

@@ -20,6 +20,7 @@ import { getTokenService } from './usecases/tokenService';
 import { getUserService } from './usecases/userService';
 import { AuthenticatedPage } from './views/AuthenticatedPage';
 import { Landing } from './views/Landing';
+import { LectureDetail } from './views/LectureDetail';
 import { Login } from './views/Login';
 import { MyPage } from './views/MyPage';
 import { Timetable } from './views/TimeTable';
@@ -77,6 +78,10 @@ const getAuthenticatedBrowserRouter = () => {
         {
           path: '/list',
           element: <TimeTableList />,
+        },
+        {
+          path: '/timetables/:timetableId/lectures/:timetableLectureId',
+          element: <LectureDetail />,
         },
       ],
     },
